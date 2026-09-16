@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="SettingsRow" template="GameButton" style="width: 100%; height: 100px; background-image: url(&quot;project://database/Assets/StaticAssets/UI/Border/panel-border-027.png?fileID=2800000&amp;guid=748e928a7ebc88a439bd86575568accd&amp;type=3#panel-border-027&quot;); -unity-slice-left: 32; -unity-slice-top: 32; -unity-slice-right: 32; -unity-slice-bottom: 32; -unity-background-image-tint-color: rgb(190, 190, 190); padding-top: 16px; padding-left: 32px; padding-bottom: 16px; padding-right: 32px; flex-direction: row;">
+        <Style src="project://database/Assets/StaticAssets/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
+        <ui:Label text="Settings name" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
+        <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0);"/>
+    </ui:VisualElement>
+</ui:UXML>
