@@ -1,4 +1,11 @@
 :root {
+    --background: rgb(0, 0, 0);
+    --accent: rgb(250, 164, 39);
+    --primary: rgb(255, 255, 255);
+}
+
+#GameTitle {
+    color: var(--accent);
 }
 
 .settings-row {
@@ -16,6 +23,7 @@
     padding-right: 32px;
     flex-direction: row;
     margin-bottom: 8px;
+    transition-duration: 0.15s;
 }
 
 .base-font {
@@ -25,4 +33,48 @@
     background-color: rgba(255, 255, 255, 0);
     -unity-font-style: bold;
     color: rgb(46, 46, 46);
+}
+
+.settings-row:hover {
+    width: 100%;
+    height: 100px;
+    background-image: url("project://database/Assets/StaticAssets/UI/Border/panel-border-027.png?fileID=2800000&guid=748e928a7ebc88a439bd86575568accd&type=3#panel-border-027");
+    -unity-slice-left: 32;
+    -unity-slice-top: 32;
+    -unity-slice-right: 32;
+    -unity-slice-bottom: 32;
+    -unity-background-image-tint-color: rgb(190, 190, 190);
+    padding-top: 16px;
+    padding-left: 32px;
+    padding-bottom: 18px;
+    padding-right: 32px;
+    flex-direction: row;
+    margin-bottom: 8px;
+    background-color: rgb(29, 29, 29);
+    transition-duration: 0.15s;
+    -unity-paragraph-spacing: 0;
+    word-spacing: 0;
+}
+
+.fade-up-in {
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    opacity: 1;
+}
+
+.game-title-default {
+    -unity-font-definition: url("project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&guid=bbc2891b3dc7a454eaeb315fda54e605&type=3#Lora-Italic-VariableFont_wght");
+    font-size: 120px;
+    -unity-text-align: middle-center;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 165px;
+    margin-top: 10%;
+    opacity: 1;
+}
+
+.game-title-entrance {
+    scale: 0.9 0.9 0.9;
+    opacity: 0;
 }

@@ -19,13 +19,19 @@ public class SettingsScriptable : ScriptableObject
         Chinese
     }
     
+    [Header("Video")]
     public int resolution = 0;
     public FullScreenMode windowMode;
-    public QualityLevel quality;
+    public int quality;
     public int fieldOfView = 60;
 
+    [Header("Audio")]
+    public bool musicEnabled = true;
+    public bool soundEnabled = true;
+    
     public float musicVolume = 50f;
     public float soundVolume = 50f;
 
+    [Header("Language")]
     public Languages language = Languages.English;
 }

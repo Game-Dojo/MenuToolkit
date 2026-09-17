@@ -1,8 +1,8 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="GameButton" src="project://database/Assets/StaticAssets/Toolkit/GameButton.uxml?fileID=9197481963319205126&amp;guid=9dcd40664aef29a45a113e47c241a237&amp;type=3#GameButton"/>
     <Style src="project://database/Assets/StaticAssets/Toolkit/MenuStyle.uss?fileID=7433441132597879392&amp;guid=acf1c76e6baeff747b4a52fbf75cae9f&amp;type=3#MenuStyle"/>
-    <ui:VisualElement name="Main" style="flex-grow: 1; display: none;">
-        <ui:Label text="Game Title" name="GameTitle" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 120px; -unity-text-align: middle-center; left: 0; right: 0; top: 0; height: 165px; margin-top: 10%;"/>
+    <ui:VisualElement name="Main" style="flex-grow: 1; display: flex;">
+        <ui:Label text="Game Title" name="GameTitle" class="game-title game-title-default game-title-entrance" style="transition-duration: 1s;"/>
         <ui:VisualElement name="Buttons" style="flex-grow: 1; position: absolute; bottom: 3px; left: 0; right: 0; height: 419px; flex-direction: column; align-items: center; justify-content: center; align-self: center; display: flex;">
             <ui:Instance template="GameButton" name="PlayButton">
                 <AttributeOverrides element-name="GameButton" text="Play"/>
@@ -15,7 +15,7 @@
             </ui:Instance>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="Options" enabled="true" style="flex-grow: 1; position: absolute; left: 2px; right: -2px; padding-top: 8px; padding-left: 8px; padding-right: 8px; padding-bottom: 8px; height: 1053px; bottom: 0; display: flex; opacity: 1;">
+    <ui:VisualElement name="Options" enabled="true" style="flex-grow: 1; position: absolute; left: 2px; right: -2px; padding-top: 8px; padding-left: 8px; padding-right: 8px; padding-bottom: 8px; height: 1053px; bottom: 0; display: none; opacity: 1;">
         <ui:VisualElement name="TitleContainer" style="flex-grow: 1; left: 0; right: 0; top: 0; height: auto; max-height: 100px; flex-direction: row; justify-content: center;">
             <ui:Image source="project://database/Assets/StaticAssets/UI/Divider/divider-003.png?fileID=2800000&amp;guid=512461a378272904fbf4edad18a38b7f&amp;type=3#divider-003" scale-mode="ScaleToFit"/>
             <ui:Label text="Options" name="OptionsTitle" style="font-size: 64px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); -unity-text-align: middle-center; margin-left: 32px; margin-right: 32px;"/>
@@ -126,8 +126,9 @@
                 </ui:Instance>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:ScrollView name="ScrollView" style="flex-grow: 1;">
+        <ui:ScrollView name="ScrollView" style="flex-grow: 1; padding-top: 24px;">
             <ui:VisualElement name="OptionButtons" style="flex-grow: 1; position: relative; bottom: 3px; left: 0; right: 0; height: 100%; flex-direction: column; align-items: center; justify-content: center; align-self: center; width: 80%; margin-top: 32px; padding-left: 16px; padding-right: 16px;">
+                <ui:Label text="Video" name="LangTitle" style="font-size: 42px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); -unity-text-align: middle-center; margin-top: 16px; margin-bottom: 16px;"/>
                 <ui:VisualElement name="Resolution" template="GameButton" class="settings-row" style="width: 100%; flex-direction: row; min-height: 100px;">
                     <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
                     <ui:Label text="Resolution" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
@@ -144,18 +145,18 @@
                     <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
                     <ui:Label text="Quality" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
                     <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center;">
-                        <ui:EnumField label="" value="Center" type="UnityEngine.QualityLevel, UnityEngine.CoreModule" class="base-font" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); font-size: 24px; -unity-font-style: bold;">
+                        <ui:DropdownField label="" name="QualityDropdown" class="base-font">
                             <Bindings>
-                                <ui:DataBinding property="value" data-source-path="quality" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="TwoWay"/>
+                                <ui:DataBinding property="index" data-source-path="quality" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="ToSource"/>
                             </Bindings>
-                        </ui:EnumField>
+                        </ui:DropdownField>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Fov" template="GameButton" class="settings-row" style="min-height: 100px;">
                     <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
                     <ui:Label text="Field of view" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
-                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center; flex-direction: row;">
-                        <ui:SliderInt label="" value="60" high-value="90" low-value="40" style="color: rgb(255, 255, 255); width: 100%;">
+                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: flex-end; flex-direction: row;">
+                        <ui:SliderInt label="" value="60" high-value="90" low-value="40" style="color: rgb(255, 255, 255); width: 80%;">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="fieldOfView" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="ToSource"/>
                             </Bindings>
@@ -191,11 +192,22 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:Label text="Audio" name="AudioTitle" style="font-size: 42px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); -unity-text-align: middle-center; margin-top: 16px; margin-bottom: 16px;"/>
+                <ui:VisualElement name="MusicEnabled" template="GameButton" class="settings-row" style="min-height: 100px;">
+                    <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
+                    <ui:Label text="Music Enabled" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
+                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center;">
+                        <ui:Toggle label="" name="MusicToggle" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; scale: 1 1; width: 32px; height: 32px; flex-direction: row-reverse; align-items: center; justify-content: center;">
+                            <Bindings>
+                                <ui:DataBinding property="value" data-source-path="musicEnabled" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="TwoWay"/>
+                            </Bindings>
+                        </ui:Toggle>
+                    </ui:VisualElement>
+                </ui:VisualElement>
                 <ui:VisualElement name="Volume" template="GameButton" class="settings-row" style="min-height: 100px;">
                     <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
-                    <ui:Label text="Volume" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
-                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center;">
-                        <ui:SliderInt label="" value="42" high-value="100" style="color: rgb(255, 255, 255);">
+                    <ui:Label text="Music" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
+                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center; align-items: auto;">
+                        <ui:SliderInt label="" value="42" high-value="100" style="color: rgb(255, 255, 255); width: 80%;">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="musicVolume" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="TwoWay"/>
                             </Bindings>
@@ -207,11 +219,22 @@
                         </Bindings>
                     </ui:Label>
                 </ui:VisualElement>
+                <ui:VisualElement name="SoundEnabled" template="GameButton" class="settings-row" style="min-height: 100px;">
+                    <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
+                    <ui:Label text="Sound Enabled" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
+                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center;">
+                        <ui:Toggle label="" name="SoundToggle" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; scale: 1 1; width: 32px; height: 32px; flex-direction: row-reverse; align-items: center; justify-content: center;">
+                            <Bindings>
+                                <ui:DataBinding property="value" data-source-path="soundEnabled" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="TwoWay"/>
+                            </Bindings>
+                        </ui:Toggle>
+                    </ui:VisualElement>
+                </ui:VisualElement>
                 <ui:VisualElement name="Sound" template="GameButton" class="settings-row" style="min-height: 100px;">
                     <Style src="project://database/Assets/StaticAssets/Toolkit/ButtonStyle.uss?fileID=7433441132597879392&amp;guid=9e5d6d7e9dccebe4191ecb16e5c3e101&amp;type=3#ButtonStyle"/>
                     <ui:Label text="Sounds" name="Label" style="-unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); color: rgb(255, 255, 255); font-size: 32px; -unity-text-align: middle-left; height: 100%; flex-grow: 1;"/>
-                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center;">
-                        <ui:SliderInt label="" value="42" high-value="100" style="color: rgb(255, 255, 255);">
+                    <ui:VisualElement name="Container" style="flex-grow: 1; width: auto; max-width: 390px; background-color: rgba(174, 0, 0, 0); justify-content: center; align-items: auto;">
+                        <ui:SliderInt label="" value="42" high-value="100" style="color: rgb(255, 255, 255); width: 80%;">
                             <Bindings>
                                 <ui:DataBinding property="value" data-source-path="soundVolume" data-source="project://database/Assets/StaticAssets/MenuSettings.asset?fileID=11400000&amp;guid=a1d973c842ca74040a00d76e856244cb&amp;type=2#MenuSettings" binding-mode="TwoWay"/>
                             </Bindings>
@@ -226,22 +249,22 @@
             </ui:VisualElement>
         </ui:ScrollView>
         <ui:VisualElement name="OptButtons" style="flex-grow: 1; flex-direction: row; position: relative; height: 100px; min-height: 100px; margin-top: 8px; width: 100%; justify-content: center; margin-bottom: 8px;">
-            <ui:Instance template="GameButton" name="BackButton" style="margin-top: 0;">
+            <ui:Instance template="GameButton" name="BackMainButton" style="margin-top: 0;">
                 <AttributeOverrides element-name="GameButton" text="Back"/>
             </ui:Instance>
-            <ui:Instance template="GameButton" name="ApplyButton" style="margin-top: 0; background-color: rgb(24, 24, 24); margin-left: 16px;">
+            <ui:Instance template="GameButton" name="ApplySettingsButton" style="margin-top: 0; background-color: rgb(24, 24, 24); margin-left: 16px;">
                 <AttributeOverrides element-name="GameButton" text="Apply"/>
             </ui:Instance>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ExitPrompt" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background-color: rgba(0, 0, 0, 0.863); align-items: center; justify-content: center; display: none;">
-        <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgb(0, 0, 0); max-width: none; min-width: 600px; max-height: 300px; background-image: url(&quot;project://database/Assets/StaticAssets/UI/Border/panel-border-025.png?fileID=2800000&amp;guid=ee0569ddc19a74248ba9d4c75ce26b93&amp;type=3#panel-border-025&quot;); -unity-slice-left: 64; -unity-slice-top: 64; -unity-slice-right: 64; -unity-slice-bottom: 64; -unity-background-image-tint-color: rgb(255, 255, 255); padding-top: 32px; padding-right: 32px; padding-bottom: 32px; padding-left: 32px;">
+        <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgb(0, 0, 0); max-width: none; min-width: 600px; max-height: 300px; background-image: url(&quot;project://database/Assets/StaticAssets/UI/Border/panel-border-025.png?fileID=2800000&amp;guid=ee0569ddc19a74248ba9d4c75ce26b93&amp;type=3#panel-border-025&quot;); -unity-slice-left: 64; -unity-slice-top: 64; -unity-slice-right: 64; -unity-slice-bottom: 64; -unity-background-image-tint-color: rgb(255, 255, 255); padding-top: 32px; padding-right: 32px; padding-bottom: 32px; padding-left: 32px; opacity: 1; translate: 0 0;">
             <ui:Label text="Are you sure &#10;you want to exit?" name="MessageLabel" style="-unity-text-align: middle-center; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/StaticAssets/Font/Lora-Italic-VariableFont_wght.ttf?fileID=12800000&amp;guid=bbc2891b3dc7a454eaeb315fda54e605&amp;type=3#Lora-Italic-VariableFont_wght&quot;); font-size: 42px;"/>
             <ui:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: row; justify-content: center; align-self: center; align-items: center;">
-                <ui:Instance template="GameButton" name="YesButton">
+                <ui:Instance template="GameButton" name="NoButton">
                     <AttributeOverrides element-name="GameButton" text="No"/>
                 </ui:Instance>
-                <ui:Instance template="GameButton" name="NoButton">
+                <ui:Instance template="GameButton" name="YesButton">
                     <AttributeOverrides element-name="GameButton" text="Yes"/>
                 </ui:Instance>
             </ui:VisualElement>

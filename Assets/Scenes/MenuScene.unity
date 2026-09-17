@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b963d888e54a70149b019997a70def5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuToolkit
+  settings: {fileID: 11400000, guid: a1d973c842ca74040a00d76e856244cb, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

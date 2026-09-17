@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +17,8 @@ public class MenuToolkit : MonoBehaviour
         Default,
         Additive
     }
+
+    [SerializeField] private SettingsScriptable settings;
     
     private UIDocument _doc;
     private VisualElement _root;
@@ -22,6 +26,7 @@ public class MenuToolkit : MonoBehaviour
     private VisualElement _mainPanel;
     private VisualElement _optionsPanel;
     private VisualElement _exitPrompt;
+    private VisualElement _logo;
     
     private Button _playButton;
     private Button _optionButton;
@@ -34,32 +39,42 @@ public class MenuToolkit : MonoBehaviour
     private Button _noButton;
 
     private DropdownField _resolutionField;
-
-    private bool _is2D = true;
+    private DropdownField _qualityField;
+    
+    private Resolution _currentResolution;
+    private Vector2Int _targetResolution = Vector2Int.zero;
     
     #region Setup
     private void OnEnable()
     {
         _doc = GetComponent<UIDocument>();
         _root = _doc.rootVisualElement;
-        
+
         _mainPanel = _root.Q<VisualElement>("Main");
         _optionsPanel = _root.Q<VisualElement>("Options");
         _exitPrompt = _root.Q<VisualElement>("ExitPrompt");
+
+        _logo = _mainPanel.Q<VisualElement>("GameTitle");
+            
+        _playButton = GetButton("PlayButton", _root);
+        _optionButton = GetButton("OptionsButton", _root);
+        _quitButton = GetButton("QuitButton", _root);
         
-        _playButton = GetButton("PlayButton");
-        _optionButton = GetButton("OptionsButton");
-        _quitButton = GetButton("QuitButton");
+        _yesButton = GetButton("YesButton", _root);
+        _noButton = GetButton("NoButton", _root);
         
-        _yesButton = GetButton("YesButton");
-        _noButton = GetButton("NoButton");
+        _backButton = GetButton("BackMainButton", _optionsPanel);
+        _applyButton = GetButton("ApplySettingsButton", _optionsPanel);
         
-        _backButton = GetButton("BackButton");
-        _applyButton = GetButton("ApplyButton");
-        
+        // Resolution
         _resolutionField = _root.Q<DropdownField>("ResolutionDrop");
         _resolutionField.RegisterValueChangedCallback(OnResolutionSelected);
 
+        // Quality
+        _qualityField = _root.Q<DropdownField>("QualityDropdown");
+        _qualityField.choices = new List<string>(QualitySettings.names);
+        _qualityField.index = settings.quality;
+        
         _playButton.clicked += PlayPressed;
         _optionButton.clicked += OptionsPressed;
         _quitButton.clicked += QuitPressed;
@@ -69,6 +84,19 @@ public class MenuToolkit : MonoBehaviour
         
         _yesButton.clicked += YesPressed;
         _noButton.clicked += NoPressed;
+    }
+
+    private void Start()
+    {
+        _currentResolution = Screen.currentResolution;
+        SwitchPanel(Panels.Main);
+
+        Invoke(nameof(AnimateIntro), 0.1f);
+    }
+
+    private void AnimateIntro()
+    {
+        _logo?.RemoveFromClassList("game-title-entrance");
     }
 
     private void OnDisable()
@@ -110,11 +138,17 @@ public class MenuToolkit : MonoBehaviour
     private void ApplyPressed()
     {
         print("Apply Pressed");
+        
+        if (_targetResolution != Vector2Int.zero)
+            Screen.SetResolution(_targetResolution.x, _targetResolution.y, Screen.fullScreenMode);
     }
     
     private void YesPressed()
     {
-        SwitchPanel(Panels.Main);
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
     
     private void NoPressed()
@@ -149,9 +183,10 @@ public class MenuToolkit : MonoBehaviour
         panel.style.display = (visible) ? DisplayStyle.Flex : DisplayStyle.None;
     }
     
-    private Button GetButton(string buttonName)
+    private Button GetButton(string buttonName, VisualElement root)
     {
-        var container = _root.Q<TemplateContainer>(buttonName); 
+        var rootPath = root ?? _root;
+        var container = rootPath.Q<TemplateContainer>(buttonName); 
         return container.Q<Button>("GameButton");
     }
     #endregion
@@ -160,13 +195,20 @@ public class MenuToolkit : MonoBehaviour
     {
         var newValue = evt.newValue;
         var previousValue = evt.previousValue;
+
+        if (newValue == previousValue)
+        {
+            _targetResolution = Vector2Int.zero;
+            return;
+        }
+        
         Debug.Log($"Changed from {previousValue} to {newValue}");
 
         var screenResolution = newValue.Split("x");
         var screenWidth = int.Parse(screenResolution[0]);
-        var screenHeight = int.Parse(screenResolution[0]);
-        
-        //var currentResolution = Screen.currentResolution;
-        Screen.SetResolution(screenWidth, screenHeight, Screen.fullScreenMode);
+        var screenHeight = int.Parse(screenResolution[1]);
+
+        _targetResolution.x = screenWidth;
+        _targetResolution.y = screenHeight;
     }
 }

@@ -45,7 +45,7 @@
     -unity-slice-top: 24;
     -unity-slice-right: 24;
     -unity-slice-bottom: 24;
-    color: rgb(255, 255, 255);
+    color: var(--accent);
     position: relative;
     width: auto;
     top: auto;
