@@ -1,6 +1,6 @@
 :root {
     --background: rgb(0, 0, 0);
-    --accent: rgb(250, 164, 39);
+    --accent: rgb(98, 255, 0);
     --primary: rgb(255, 255, 255);
 }
 

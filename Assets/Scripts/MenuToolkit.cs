@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 
 public class MenuToolkit : MonoBehaviour
@@ -18,6 +21,8 @@ public class MenuToolkit : MonoBehaviour
         Additive
     }
 
+    [SerializeField] private UniversalRenderPipelineAsset urpAsset;
+    [SerializeField] private Volume volume;
     [SerializeField] private SettingsScriptable settings;
     
     private UIDocument _doc;
@@ -43,28 +48,20 @@ public class MenuToolkit : MonoBehaviour
     
     private Resolution _currentResolution;
     private Vector2Int _targetResolution = Vector2Int.zero;
+
+    private Camera _mainCamera;
+    private UniversalAdditionalCameraData _cameraData;
     
-    #region Setup
+    #region Unity Methods
+
+    private void Awake()
+    {
+        _mainCamera = Camera.main;
+    }
+
     private void OnEnable()
     {
-        _doc = GetComponent<UIDocument>();
-        _root = _doc.rootVisualElement;
-
-        _mainPanel = _root.Q<VisualElement>("Main");
-        _optionsPanel = _root.Q<VisualElement>("Options");
-        _exitPrompt = _root.Q<VisualElement>("ExitPrompt");
-
-        _logo = _mainPanel.Q<VisualElement>("GameTitle");
-            
-        _playButton = GetButton("PlayButton", _root);
-        _optionButton = GetButton("OptionsButton", _root);
-        _quitButton = GetButton("QuitButton", _root);
-        
-        _yesButton = GetButton("YesButton", _root);
-        _noButton = GetButton("NoButton", _root);
-        
-        _backButton = GetButton("BackMainButton", _optionsPanel);
-        _applyButton = GetButton("ApplySettingsButton", _optionsPanel);
+        Setup();
         
         // Resolution
         _resolutionField = _root.Q<DropdownField>("ResolutionDrop");
@@ -74,31 +71,19 @@ public class MenuToolkit : MonoBehaviour
         _qualityField = _root.Q<DropdownField>("QualityDropdown");
         _qualityField.choices = new List<string>(QualitySettings.names);
         _qualityField.index = settings.quality;
-        
-        _playButton.clicked += PlayPressed;
-        _optionButton.clicked += OptionsPressed;
-        _quitButton.clicked += QuitPressed;
-        
-        _backButton.clicked += BackPressed;
-        _applyButton.clicked += ApplyPressed;
-        
-        _yesButton.clicked += YesPressed;
-        _noButton.clicked += NoPressed;
     }
-
-    private void Start()
+    
+    private IEnumerator Start()
     {
+        _cameraData = _mainCamera.GetUniversalAdditionalCameraData();
+        
         _currentResolution = Screen.currentResolution;
         SwitchPanel(Panels.Main);
-
-        Invoke(nameof(AnimateIntro), 0.1f);
-    }
-
-    private void AnimateIntro()
-    {
+        
+        yield return null;
         _logo?.RemoveFromClassList("game-title-entrance");
     }
-
+    
     private void OnDisable()
     {
         _playButton.clicked -= PlayPressed;
@@ -113,7 +98,7 @@ public class MenuToolkit : MonoBehaviour
     }
     #endregion
     
-    #region  Click Events
+    #region  Button Events
     private void PlayPressed()
     {
         print("Play Pressed");
@@ -126,7 +111,6 @@ public class MenuToolkit : MonoBehaviour
 
     private void BackPressed()
     {
-        print("Back Pressed");
         SwitchPanel(Panels.Main);
     }
     
@@ -138,9 +122,7 @@ public class MenuToolkit : MonoBehaviour
     private void ApplyPressed()
     {
         print("Apply Pressed");
-        
-        if (_targetResolution != Vector2Int.zero)
-            Screen.SetResolution(_targetResolution.x, _targetResolution.y, Screen.fullScreenMode);
+        ApplyAllChanges();
     }
     
     private void YesPressed()
@@ -191,6 +173,38 @@ public class MenuToolkit : MonoBehaviour
     }
     #endregion
     
+    private void Setup()
+    {
+        _doc = GetComponent<UIDocument>();
+        _root = _doc.rootVisualElement;
+
+        _mainPanel = _root.Q<VisualElement>("Main");
+        _optionsPanel = _root.Q<VisualElement>("Options");
+        _exitPrompt = _root.Q<VisualElement>("ExitPrompt");
+
+        _logo = _mainPanel.Q<VisualElement>("GameTitle");
+            
+        _playButton = GetButton("PlayButton", _root);
+        _optionButton = GetButton("OptionsButton", _root);
+        _quitButton = GetButton("QuitButton", _root);
+        
+        _yesButton = GetButton("YesButton", _root);
+        _noButton = GetButton("NoButton", _root);
+        
+        _backButton = GetButton("BackMainButton", _optionsPanel);
+        _applyButton = GetButton("ApplySettingsButton", _optionsPanel);
+
+        _playButton.clicked += PlayPressed;
+        _optionButton.clicked += OptionsPressed;
+        _quitButton.clicked += QuitPressed;
+        
+        _backButton.clicked += BackPressed;
+        _applyButton.clicked += ApplyPressed;
+        
+        _yesButton.clicked += YesPressed;
+        _noButton.clicked += NoPressed;
+    }
+    
     private void OnResolutionSelected(ChangeEvent<string> evt)
     {
         var newValue = evt.newValue;
@@ -211,4 +225,41 @@ public class MenuToolkit : MonoBehaviour
         _targetResolution.x = screenWidth;
         _targetResolution.y = screenHeight;
     }
+
+    private void ApplyAllChanges()
+    {
+        if (_targetResolution != Vector2Int.zero)
+            Screen.SetResolution(_targetResolution.x, _targetResolution.y, Screen.fullScreenMode);
+    }
+    private void SetPostProEnabled(bool state)
+    {
+        _cameraData.renderPostProcessing = state;
+    }
+
+    private void SetAntialiasing(AntialiasingMode mode)
+    {
+        _cameraData.antialiasing = mode;
+    }
+
+    private void SetVsyncEnabled(bool state)
+    {
+        QualitySettings.vSyncCount = (state) ? 1 : 0;
+    }
+
+    private void SetRenderScale(int scale)
+    {
+        urpAsset.renderScale = scale;
+    }
+
+    private void SetShadowsDistance(float distance)
+    {
+        urpAsset.shadowDistance = distance;
+    }
+
+    private void SetBloomEnabled(bool state)
+    {
+        if (volume.profile.TryGet<Bloom>(out var bloom))
+            bloom.active = state;
+    }
+    
 }
